@@ -25,6 +25,7 @@
 
   const classNames = {
     favoriteBook: 'favorite',
+    hiddenBook: 'hidden',
   };
 
   const render = function(){
@@ -44,9 +45,25 @@
   let favoriteBooks = [];
   let filters = [];
 
-	const filterBooks = function(){
+  const filterBooks = function(){
 
-	};
+    for(let book of dataSource.books){
+      let shouldBeHidden = false;
+
+      for(let filter of filters){
+        if(!book.details[filter] === true){
+          shouldBeHidden = true;
+          break;
+        }
+      }
+
+      if(shouldBeHidden === true){
+        document.querySelector('.book__image[data-id="' + book.id + '"').classList.add(classNames.hiddenBook);
+      } else {
+        document.querySelector('.book__image[data-id="' + book.id + '"').classList.remove(classNames.hiddenBook);
+      }
+    }
+  };
 
   const initActions = function(){
     const booksContainer = document.querySelector(select.containerOf.books);
@@ -79,6 +96,9 @@
         } else if(!event.target.checked){
           filters.splice(filters.indexOf(event.target.value), 1);
         }
+        event.target.addEventListener('change', function(){
+          filterBooks();
+        });
       }
     });
   };
