@@ -28,10 +28,50 @@
     hiddenBook: 'hidden',
   };
 
+class BookList {
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const determineRatingBgc = function(rating){
+    let ratingBgc = 'linear-gradient(to bottom, #fefcea 0%, #f1da36 100%';
+
+    if(rating <= 6) ratingBgc = 'linear-gradient(to bottom, #fefcea 0%, #f1da36 100%';
+    if(rating > 6 && rating <= 8) ratingBgc = 'linear-gradient(to bottom, #b4df5b 0%, #b4df5b 100%';
+    if(rating > 8 && rating <= 9) ratingBgc = 'linear-gradient(to bottom, #299a0b 0%, #299a0b 100%';
+    if(rating > 9) ratingBgc = 'linear-gradient(to bottom, #ff0084 0%, #ff0084 100%';
+
+    return ratingBgc;
+  };
+
   const render = function(){
     for(let bookID in dataSource.books){
       const book = dataSource.books[bookID];
 
+      /* DETERMINE RATING BAR COLOR */
+      book.ratingBgc = determineRatingBgc(book.rating);
+      book.ratingWidth = parseInt(book.rating * 10);
+
+      /* GENERATE HTML OUT OF HANDLEBARS TEMPLATE */
       const generatedHTML = templates.books(book);
 
       const element = utils.createDOMFromHTML(generatedHTML);
